@@ -14,6 +14,8 @@
 		CF84DF831D9837B400486FF8 /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84DF821D9837B400486FF8 /* NetworkController.swift */; };
 		CF84DF851D98A91800486FF8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84DF841D98A91800486FF8 /* Post.swift */; };
 		CF84DF871D98B1B300486FF8 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84DF861D98B1B300486FF8 /* PostController.swift */; };
+		CF84DF891D98BD1A00486FF8 /* PostListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84DF881D98BD1A00486FF8 /* PostListTableViewController.swift */; };
+		CF84DF8B1D98D7E500486FF8 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF84DF8A1D98D7E500486FF8 /* PostTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		CF84DF821D9837B400486FF8 /* NetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
 		CF84DF841D98A91800486FF8 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		CF84DF861D98B1B300486FF8 /* PostController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
+		CF84DF881D98BD1A00486FF8 /* PostListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListTableViewController.swift; sourceTree = "<group>"; };
+		CF84DF8A1D98D7E500486FF8 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,11 +63,13 @@
 			isa = PBXGroup;
 			children = (
 				CF7CBCF01D8DBBEA00C20102 /* AppDelegate.swift */,
-				CF7CBCF41D8DBBEA00C20102 /* Main.storyboard */,
 				CF84DF821D9837B400486FF8 /* NetworkController.swift */,
 				CF84DF841D98A91800486FF8 /* Post.swift */,
 				CF84DF861D98B1B300486FF8 /* PostController.swift */,
+				CF84DF881D98BD1A00486FF8 /* PostListTableViewController.swift */,
+				CF84DF8A1D98D7E500486FF8 /* PostTableViewCell.swift */,
 				CF7CBCF71D8DBBEA00C20102 /* Assets.xcassets */,
+				CF7CBCF41D8DBBEA00C20102 /* Main.storyboard */,
 				CF7CBCF91D8DBBEA00C20102 /* LaunchScreen.storyboard */,
 				CF7CBCFC1D8DBBEA00C20102 /* Info.plist */,
 			);
@@ -144,7 +150,9 @@
 				CF84DF851D98A91800486FF8 /* Post.swift in Sources */,
 				CF84DF871D98B1B300486FF8 /* PostController.swift in Sources */,
 				CF84DF831D9837B400486FF8 /* NetworkController.swift in Sources */,
+				CF84DF891D98BD1A00486FF8 /* PostListTableViewController.swift in Sources */,
 				CF7CBCF11D8DBBEA00C20102 /* AppDelegate.swift in Sources */,
+				CF84DF8B1D98D7E500486FF8 /* PostTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
