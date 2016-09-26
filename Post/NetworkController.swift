@@ -19,11 +19,7 @@ class NetworkController {
         case delete = "DELETE"
     }
     
-    static func performRequestForURLString(urlString: String, httpMethod: HTTPMethod, urlParameters: [String: String], body: NSData? = nil, completion: ((data: NSData?, error: NSError?) -> Void)?) {
-        guard let baseURL = NSURL(string: urlString) else {
-            completion?(data: nil, error: nil)
-            return
-        }
+    static func performRequestForURL(baseURL: NSURL, httpMethod: HTTPMethod, urlParameters: [String: String]? = nil, body: NSData? = nil, completion: ((data: NSData?, error: NSError?) -> Void)?) {
         
         let completeURL = urlFromURLParameters(baseURL, urlParameters: urlParameters)
         
@@ -40,9 +36,9 @@ class NetworkController {
         task.resume()
     }
     
-    static func jsonFromData(data: NSData) -> [String: AnyObject]? {
+    static func jsonFromData(data: NSData) -> [String: [String: AnyObject]]? {
         do {
-            let json = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject]
+            let json = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: [String: AnyObject]]
             return json
         } catch {
             return nil
