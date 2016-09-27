@@ -10,9 +10,10 @@ import Foundation
 
 class PostController {
     static let baseURL = NSURL(string: "https://post-d680c.firebaseio.com/")!
-    static let endpoint = PostController.baseURL.URLByAppendingPathExtension("json")
+    static let endpoint = PostController.baseURL.URLByAppendingPathComponent("Posts").URLByAppendingPathExtension("json")
     
     var delegate: PostControllerDelegate?
+    var initialContactWithServer = true
     
     var posts: [Post] = [] {
         didSet {
@@ -23,14 +24,21 @@ class PostController {
     init() {
         fetchPosts()
     }
+    
     func fetchPosts(completion: ((posts: [Post]) -> Void)? = nil) {
         
         NetworkController.performRequestForURL(PostController.endpoint, httpMethod: .get) { (data, error) in
             guard let data = data,
                 let postDictionary = NetworkController.jsonFromData(data) else {
-                    print("Error serializing data")
-                    completion?(posts: [])
-                    return
+                    if self.initialContactWithServer {
+                        self.initialContactWithServer = false
+                        completion?(posts: [])
+                        return
+                    } else {
+                        print("Error serializing data")
+                        completion?(posts: [])
+                        return
+                    }
             }
             
             let posts = postDictionary.flatMap({Post(dictionary: $0.1, identifier: $0.0)})
@@ -45,7 +53,20 @@ class PostController {
         }
     }
     
+    func addPost(username: String, text: String, completion: ((success: Bool) -> Void)?) {
+        let newPost = Post(username: username, text: text)
+        
+        NetworkController.performRequestForURL(PostController.endpoint, httpMethod: .post, body: newPost.jsonData) { (data, error) in
+            if let _ = error {
+                completion?(success: false)
+            } else {
+                completion?(success: true)
+            }
+        }
+    }
+
 }
+
 
 protocol PostControllerDelegate {
     func postsUpdated(posts: [Post])
