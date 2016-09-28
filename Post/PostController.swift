@@ -25,20 +25,22 @@ class PostController {
         fetchPosts()
     }
     
-    func fetchPosts(completion: ((posts: [Post]) -> Void)? = nil) {
+    func fetchPosts(reset: Bool = true, completion: ((posts: [Post]) -> Void)? = nil) {
         
-        NetworkController.performRequestForURL(PostController.endpoint, httpMethod: .get) { (data, error) in
+        let queryEndInterval = reset ? NSDate().timeIntervalSince1970 : posts.last?.queryTimestamp ?? NSDate().timeIntervalSince1970
+        
+        let urlParameters = [
+            "orderBy": "\"timestamp\"",
+            "endAt": "\(queryEndInterval)",
+            "limitToLast": "12"
+            ]
+        
+        NetworkController.performRequestForURL(PostController.endpoint, httpMethod: .get, urlParameters: urlParameters) { (data, error) in
             guard let data = data,
                 let postDictionary = NetworkController.jsonFromData(data) else {
-                    if self.initialContactWithServer {
-                        self.initialContactWithServer = false
-                        completion?(posts: [])
-                        return
-                    } else {
-                        print("Error serializing data")
-                        completion?(posts: [])
-                        return
-                    }
+                    print("Error serializing data")
+                    completion?(posts: [])
+                    return
             }
             
             let posts = postDictionary.flatMap({Post(dictionary: $0.1, identifier: $0.0)})
@@ -46,14 +48,18 @@ class PostController {
             let sortedPosts = posts.sort({ $0.0.timestamp > $0.1.timestamp})
             
             dispatch_async(dispatch_get_main_queue(), {
-                self.posts = sortedPosts
+                if reset {
+                    self.posts = sortedPosts
+                } else {
+                    self.posts.appendContentsOf(sortedPosts)
+                }
                 completion?(posts: sortedPosts)
                 return
             })
         }
     }
     
-    func addPost(username: String, text: String, completion: ((success: Bool) -> Void)?) {
+    func addPost(username: String, text: String, completion: ((success: Bool) -> Void)? = nil) {
         let newPost = Post(username: username, text: text)
         
         NetworkController.performRequestForURL(PostController.endpoint, httpMethod: .post, body: newPost.jsonData) { (data, error) in
@@ -62,6 +68,8 @@ class PostController {
             } else {
                 completion?(success: true)
             }
+            
+            self.fetchPosts()
         }
     }
 

@@ -51,4 +51,8 @@ struct Post {
         return try? NSJSONSerialization.dataWithJSONObject(self.jsonFormat, options: .PrettyPrinted)
 
     }
+    
+    var queryTimestamp: NSTimeInterval {
+        return timestamp - 0.000001
+    }
 }
