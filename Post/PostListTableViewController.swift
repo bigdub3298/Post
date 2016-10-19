@@ -31,7 +31,7 @@ class PostListTableViewController: UITableViewController, PostControllerDelegate
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        
         return postController.posts.count
     }
     
@@ -49,6 +49,7 @@ class PostListTableViewController: UITableViewController, PostControllerDelegate
         return cell
     }
  
+    // MARK: - Table view delegate
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row+1 == postController.posts.count {
@@ -77,17 +78,6 @@ class PostListTableViewController: UITableViewController, PostControllerDelegate
         tableView.reloadData()
     }
     
-    func refresh(refreshControl: UIRefreshControl) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-        postController.fetchPosts { (posts) in
-            dispatch_async(dispatch_get_main_queue(), {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                refreshControl.endRefreshing()
-                self.tableView.reloadData()
-            })
-        }
-    }
-    
     // MARK: - Actions 
     
     @IBAction func addPostButtonTapped(sender: UIBarButtonItem) {
@@ -95,6 +85,7 @@ class PostListTableViewController: UITableViewController, PostControllerDelegate
     }
     
     // MARK: - Helper function
+    
     func presentNewPostAlert() {
         let addNotif = UIAlertController(title: "Add Post", message: nil, preferredStyle: .Alert)
         
@@ -142,5 +133,16 @@ class PostListTableViewController: UITableViewController, PostControllerDelegate
         errorNotif.addAction(tryAgainAction)
         
         self.presentViewController(errorNotif, animated: true, completion: nil)
+    }
+    
+    func refresh(refreshControl: UIRefreshControl) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        postController.fetchPosts { (posts) in
+            dispatch_async(dispatch_get_main_queue(), {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                refreshControl.endRefreshing()
+                self.tableView.reloadData()
+            })
+        }
     }
 }
